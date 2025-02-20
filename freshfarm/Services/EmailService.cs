@@ -18,6 +18,13 @@ namespace freshfarm.Services
             _logger = logger;
         }
 
+        private string MaskEmail(string email)
+        {
+            var atIndex = email.IndexOf('@');
+            if (atIndex <= 1) return email; // Not enough characters to mask
+            return email.Substring(0, 1) + new string('*', atIndex - 1) + email.Substring(atIndex);
+        }
+
         public async Task SendEmailAsync(string email, string subject, string message, bool isHtml = true)
         {
             try
@@ -49,7 +56,7 @@ namespace freshfarm.Services
                 mailMessage.To.Add(email);
 
                 await smtpClient.SendMailAsync(mailMessage);
-                _logger.LogInformation($"✅ Email successfully sent to {email} with subject: {subject}");
+                _logger.LogInformation($"✅ Email successfully sent to {MaskEmail(email)} with subject: {subject}");
             }
             catch (SmtpException smtpEx)
             {
@@ -57,7 +64,7 @@ namespace freshfarm.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"❌ Unexpected error sending email to {email}: {ex.Message}");
+                _logger.LogError($"❌ Unexpected error sending email to {MaskEmail(email)}: {ex.Message}");
             }
         }
     }
