@@ -1,0 +1,34 @@
+﻿@page
+@model freshfarm.Pages.Account.LoginModel
+
+<div class="container mt-5">
+    <h1 class="mb-3">Login</h1>
+
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="LoginData.Email">Email</label>
+            <input type="email" asp-for="LoginData.Email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="LoginData.Password">Password</label>
+            <input type="password" asp-for="LoginData.Password" class="form-control" required />
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" asp-for="LoginData.RememberMe" class="form-check-input" />
+            <label class="form-check-label" asp-for="LoginData.RememberMe">Remember Me</label>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+
+        <div>
+            <a asp-page="/Account/Register">Don't have an account? Register here</a> |
+            <a asp-page="/Account/ForgotPassword">Forgot Password?</a>
+        </div>
+    </form>
+</div>

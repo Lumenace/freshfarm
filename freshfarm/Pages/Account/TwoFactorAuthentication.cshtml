@@ -1,0 +1,25 @@
+﻿@page
+@model freshfarm.Pages.Account.TwoFactorAuthenticationModel
+
+<div class="container mt-5">
+    <h1 class="mb-3">Two-Factor Authentication</h1>
+    <p>We have sent a verification code to your email. Please enter the code below.</p>
+
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="Code">Enter Code</label>
+            <input type="text" asp-for="Code" class="form-control" required />
+            <span class="text-danger" asp-validation-for="Code"></span>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Verify & Login</button>
+        </div>
+
+        <div>
+            <a asp-page="/Account/Login">Back to Login</a>
+        </div>
+    </form>
+</div>

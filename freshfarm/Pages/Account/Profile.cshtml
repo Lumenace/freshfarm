@@ -1,0 +1,9 @@
+﻿@page
+@using freshfarm.Models  
+
+@model freshfarm.Pages.Account.ProfileModel
+@inject UserManager<AppUser> UserManager
+
+<h1>Welcome to your profile, @UserManager.GetUserAsync(User).Result.FullName</h1>
+<p>Email: @UserManager.GetUserAsync(User).Result.Email</p>
+<p>Mobile: @UserManager.GetUserAsync(User).Result.MobileNo</p>

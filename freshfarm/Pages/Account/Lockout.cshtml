@@ -1,0 +1,10 @@
+﻿@page
+@model freshfarm.Pages.Account.LockoutModel
+
+<div class="container text-center mt-5">
+    <h1 class="text-danger">Account Locked</h1>
+    <p>Your account has been temporarily locked due to multiple failed login attempts.</p>
+    <p>Please try again in a few minutes.</p>
+
+    <a asp-page="/Account/Login" class="btn btn-primary mt-3">Back to Login</a>
+</div>

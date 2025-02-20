@@ -1,0 +1,122 @@
+﻿@page
+@model freshfarm.Pages.Account.RegisterModel
+
+<div class="container mt-5">
+    <h1 class="mb-3">Register</h1>
+
+   
+
+    <form id="register-form" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.FullName">Full Name</label>
+            <input type="text" asp-for="RModel.FullName" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Gender">Gender</label>
+            <select asp-for="RModel.Gender" class="form-control" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.MobileNo">Mobile Number</label>
+            <input type="text" asp-for="RModel.MobileNo" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.DeliveryAddress">Delivery Address</label>
+            <textarea asp-for="RModel.DeliveryAddress" class="form-control" rows="2" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.AboutMe">About Me</label>
+            <textarea asp-for="RModel.AboutMe" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Email">Email Address</label>
+            <input type="email" asp-for="RModel.Email" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.Password">Password</label>
+            <input type="password" asp-for="RModel.Password" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.ConfirmPassword">Confirm Password</label>
+            <input type="password" asp-for="RModel.ConfirmPassword" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.CreditCard">Credit Card</label>
+            <input type="text" asp-for="RModel.CreditCard" class="form-control" required />
+        </div>
+
+        <!-- ✅ Secure Profile Photo Upload -->
+        <div class="mb-3">
+            <label class="form-label" asp-for="RModel.ProfilePhoto">Profile Photo (JPG Only)</label>
+            <input type="file" asp-for="RModel.ProfilePhoto" class="form-control" accept=".jpg" required />
+            <span class="text-danger" asp-validation-for="RModel.ProfilePhoto"></span>
+        </div>
+
+        <!-- ✅ Google reCAPTCHA v3 -->
+        <input type="hidden" asp-for="RecaptchaResponse" id="g-recaptcha-response" />
+
+        <!-- ✅ Load reCAPTCHA API Script -->
+        <script>
+            console.log("🔹 Loading reCAPTCHA API...");
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js?render=@Model.ReCaptchaSiteKey" async defer></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                console.log("🔹 DOM fully loaded!");
+
+                var registerForm = document.getElementById("register-form");
+                if (!registerForm) {
+                    console.error("❌ Form element with id 'register-form' not found!");
+                    return;
+                }
+
+                registerForm.addEventListener("submit", function (e) {
+                    e.preventDefault(); // ❌ Prevent immediate submission
+                    console.log("🔹 Register button clicked! Executing reCAPTCHA...");
+
+                    grecaptcha.execute('@Model.ReCaptchaSiteKey', { action: 'submit' }).then(function (token) {
+                        console.log("✅ reCAPTCHA token received:", token);
+                        document.getElementById("g-recaptcha-response").value = token;
+
+                        console.log("✅ Submitting form after reCAPTCHA verification...");
+                        e.target.submit(); // ✅ Submit form after token is set
+                    }).catch(function (error) {
+                        console.error("❌ reCAPTCHA execution failed:", error);
+                    });
+                });
+
+                // ✅ JavaScript Client-Side Validation for File Upload
+                document.querySelector('[asp-for="RModel.ProfilePhoto"]').addEventListener('change', function (e) {
+                    var file = e.target.files[0];
+                    if (file) {
+                        var fileName = file.name.toLowerCase();
+                        console.log("🔹 File selected:", fileName);
+                        if (!fileName.endsWith(".jpg")) {
+                            alert("❌ Only .JPG files are allowed.");
+                            e.target.value = "";
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,25 @@
+﻿@page
+@model freshfarm.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container text-center mt-5">
+    <h2>Oops! Something went wrong.</h2>
+    <p>Error Code: @Model.StatusCode</p>
+
+    @if (Model.StatusCode == 404)
+    {
+        <p>The page you are looking for could not be found.</p>
+    }
+    else if (Model.StatusCode == 403)
+    {
+        <p>You do not have permission to access this page.</p>
+    }
+    else
+    {
+        <p>An unexpected error occurred. Please try again later.</p>
+    }
+
+    <a href="/" class="btn btn-primary">Go Back Home</a>
+</div>

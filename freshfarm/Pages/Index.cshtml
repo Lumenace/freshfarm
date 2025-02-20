@@ -1,0 +1,41 @@
+﻿@page
+@model freshfarm.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (Model.CurrentUser != null)
+{
+    <div class="container">
+        <h1 class="display-4">Welcome, @Model.CurrentUser.FullName</h1>
+        <p><strong>Email:</strong> @Model.CurrentUser.Email</p>
+        <p><strong>Mobile:</strong> @Model.CurrentUser.MobileNo</p>
+        <p><strong>Gender:</strong> @Model.CurrentUser.Gender</p>
+        <p><strong>Delivery Address:</strong> @Model.CurrentUser.DeliveryAddress</p>
+        <p><strong>About Me:</strong> @Model.CurrentUser.AboutMe</p>
+
+        @if (!string.IsNullOrEmpty(Model.DecryptedCreditCard))
+        {
+            <p><strong>Credit Card:</strong> @Model.DecryptedCreditCard</p>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.CurrentUser.ProfilePhoto))
+        {
+            <div>
+                <img src="/upload/@Model.CurrentUser.ProfilePhoto" alt="Profile Photo" class="img-thumbnail" width="150" />
+            </div>
+        }
+
+        <div class="mt-3">
+            <a asp-page="/Account/ChangePassword" class="btn btn-warning">Change Password</a>
+            <a asp-page="/Account/Logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Please <a asp-page="/Account/Login">log in</a> to access your profile.</p>
+    </div>
+}
