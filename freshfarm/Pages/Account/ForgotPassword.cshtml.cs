@@ -41,7 +41,8 @@ namespace freshfarm.Pages.Account
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetLink = Url.Page("/Account/ResetPassword", null, new { email = user.Email, token }, Request.Scheme);
+            var encryptedToken = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(token));
+            var resetLink = Url.Page("/Account/ResetPassword", null, new { email = user.Email, token = encryptedToken }, Request.Scheme);
 
             await _emailService.SendEmailAsync(user.Email, "Reset Your Password",
                 $"Click <a href='{resetLink}'>here</a> to reset your password.");
